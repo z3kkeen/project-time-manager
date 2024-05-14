@@ -10,7 +10,7 @@ export default function SignupPage() {
       <input name="password" type="password" placeholder="password" className="px-2 border-2 border-slate-500 rounded-md" />
       
       <button type='submit' className="border-2 bg-slate-600 text-white w-28 rounded-md">Continue</button>
-      <Link href={"/"} className="underline"><i>login page -></i></Link>
+      <Link href={"/"} className="underline"><i>login page</i></Link>
     </form>
   )
 }

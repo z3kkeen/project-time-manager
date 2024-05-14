@@ -39,7 +39,7 @@ export default function Login () {
               <button type="submit" className="border-2 bg-slate-600 text-white w-20 rounded-md">Login</button>
             </form>
 
-            <Link href={"/signup"} className="underline"><i>signup page -{'>'}</i></Link>
+            <Link href={"/signup"} className="underline"><i>signup page</i></Link>
         </div>
       ) : (
         <Profile user={user} />
