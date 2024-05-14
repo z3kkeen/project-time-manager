@@ -10,7 +10,7 @@ export default function Login () {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
-  const handleSubmit = async (e, path) => {
+  const handleSubmit = async (e: any, path: any) => {
     e.preventDefault()
     const response = await fetch(`/api/${path}`, {
       method: 'POST',
