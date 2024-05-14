@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Profile = ({ user }) => {
+const Profile = () => {
   return (
     <div>
-      <h1>Your Profile</h1>
-      <p>Welcome, {user.username}!</p>
+      {/* <h1>Your Profile</h1>
+      <p>Welcome, {user.username}!</p> */}
     </div>
   )
 }

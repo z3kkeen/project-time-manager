@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 import { useState } from 'react'
-import Profile from './components/Profile'
 import Link from 'next/link'
+import Profile from './components/Profile'
 
 export default function Login () {
   const [username, setUsername] = useState('')
@@ -42,7 +42,7 @@ export default function Login () {
             <Link href={"/signup"} className="underline"><i>signup page</i></Link>
         </div>
       ) : (
-        <Profile user={user} />
+        <Profile />
       )}
     </div>
   )
