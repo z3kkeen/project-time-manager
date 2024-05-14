@@ -25,7 +25,7 @@ export default async function home({params}: PageByIdProps) {
         <h1 className="text-3xl tracking-wider"> <b>{data[0].name} </b> </h1>
       </div>
 
-      <Link href={'/home'} className="underline" >HOME -></Link>
+      <Link href={'/home'} className="underline" >HOME -{'>'}</Link>
       
       <div className="flex flex-col items-center justify-center gap-4">
         <Timer params={data[0]} previousTimeSpent={previousTimeSpent} data={categs.rows} />
