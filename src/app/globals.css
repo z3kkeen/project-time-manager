@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --offWhite: #e9e5de;
+    --lightBlue: #525F6F;
+    --darkerBlue: #243141;
+    --darkestBlue: #141B25;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inconsolata:wght@200..900&display=swap');
+
+.gloria-hallelujah-regular {
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.inconsolata-500 {
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.inconsolata-700 {
+    font-family: "Inconsolata", monospace;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
+  
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#white_webkit {
+    -webkit-text-stroke: 1px #e9e5de;
+}
+
+#red_webkit {
+    -webkit-text-stroke: 1px #8B3037;
+}
+
+#blue_webkit {
+    -webkit-text-stroke: 1px #525F6F;
+}
+
+#dBlue_webkit {
+    -webkit-text-stroke: 1px #243141;
+}

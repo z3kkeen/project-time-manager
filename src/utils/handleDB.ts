@@ -1,15 +1,18 @@
 'use server'
+import { getServerSession } from 'next-auth';
 import { db } from './db';
+import { authOptions } from '@/lib/authOptions';
+import { Session } from "next-auth";
 
 export async function getData() {
     const data = await db.query('SELECT * FROM projects');
     return data.rows
 }
 
-export async function saveData(name:string, timespent:number, user_id:number) {
+export async function saveData(name:string, timespent:number, user_id:string | null | undefined) {
     timespent = timespent * 3600;
     try{
-        await db.query('INSERT INTO projects(name) VALUES ($1, $2)', [name, user_id]);
+        await db.query('INSERT INTO projects(name, user_id) VALUES ($1, $2)', [name, user_id]);
         return 'Saved successfully!';
         
     } catch (error) {
@@ -52,9 +55,10 @@ export async function getProj(id: number) {
     return data.rows
 }
 
-export async function getAll() {
-    const data = await db.query('SELECT projects.id AS ProjectId, projects.name AS ProjectName, COALESCE(SUM(work_logs.timespent), 0) AS TotalTimeSpent FROM projects LEFT JOIN work_logs ON projects.id = work_logs.project_id GROUP BY projects.id, projects.name');
-    return data.rows
+export async function getAll(session: any) {
+    const user = session?.user?.name;
+    const data = await db.query('SELECT projects.id AS ProjectId, projects.name AS ProjectName, COALESCE(SUM(work_logs.timespent), 0) AS TotalTimeSpent FROM projects LEFT JOIN work_logs ON projects.id = work_logs.project_id WHERE user_id=$1 GROUP BY projects.id, projects.name', [user]);
+    return data.rows;
 }
 
 export async function getCateg(id: number) {
@@ -70,3 +74,19 @@ export async function getWorkLoad(id: number) {
     return data.rows
 }
 
+export async function getUserSession() {
+    const session = await getServerSession(authOptions) as Session;
+    console.log(session);
+    
+    return session;
+}
+
+export async function addProject(name:string, user_id:string | null | undefined) {
+    try{
+        await saveData(name, 0, user_id);
+        
+    } catch (error) {
+        console.log('error:' + error);
+        return 'Something went wrong ...'
+    }
+}

@@ -1,47 +1,39 @@
-import { deleteData, getAll, getData, saveData } from '@/utils/handleDB';
+import { deleteData, getAll, getData } from '@/utils/handleDB';
 import { revalidateTag } from 'next/cache';
+import { Session, getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
 import Link from 'next/link';
 import React from 'react'
+import ExtendedHome from '../components/ExtendedHome';
 
 export default async function home() {
-  const data = await getAll();
+  const session = await getServerSession(authOptions) as Session;
+  const data = await getAll(session);
   const projData = await getData();
   revalidateTag('project');
     
-  const create = async (formData:FormData)=> {
-    'use server'    
-    const name = formData.get('name') as string
-    const timespent = Number(formData.get('timespent'));
-      
-    const data = await saveData(name, timespent);
+  const deleteProj = async (formData:FormData) => {
+    'use server'
+    const id = Number(formData.get('id'));
+    const data = await deleteData(Number(id));
     revalidateTag('project');
   }
     
-  const deleteProj = async (formData:FormData)=> {
-    'use server'
-    const id = Number(formData.get('id'));
-    const data = await deleteData(Number(id))
-    revalidateTag('project') 
-  }
-    
     return (
-      <div className="h-screen w-full flex justify-center items-center flex-col bg-slate-800 gap-10">
-      <div className="flex items-center flex-col">
-        <h1 className="text-xl text-white"><b>PROJECTS</b></h1>
+      <div className="h-screen min-w-full flex  items-center flex-col bg-[--darkestBlue] gap-10">
 
-        <form action={create} className="flex flex-col justify-center items-center gap-1 w-60 text-white">
-          <h2>Add project</h2>
-          <input 
-            type="text" 
-            name="name" 
-            className="text-black px-2 rounded-sm"
-            placeholder="Project name"
-            />
-          <button className="w-36 border-white border-2 bg-slate-600 rounded">Add project</button>
-        </form>
-      </div>
+        <header className="w-full h-28 flex justify-center items-center flex-col bg-[--lightBlue] border-b-4 border-[--offWhite] rounded-b-xl">
+          <h1 className="text-xl text-[--offWhite] gloria-hallelujah-regular tracker-widest">Time Manager</h1>
+
+          <div className="bg-[--offWhite] h-0.5 w-28"></div>
+
+          <h1 id="dBlue_webkit" className="inconsolata-500 text-3xl text-[--offWhite]"><b>HOME</b></h1>
+
+        </header>
       
-      <div className="w-5/6 min-h-38 flex justify-start items-start flex-wrap gap-3 bg-slate-600 p-3 text-white">
+        <h1 className="text-[#8BA0B9] gloria-hallelujah-regular tracking-widest text-2xl"> <i>- Welcome! -</i></h1>
+
+      <main className="w-full min-h-96 flex justify-start items-start flex-wrap gap-3 bg-[--darkerBlue] p-3 text-white rounded-lg">
         {data.map((project) => {
 
           let timeLeft = project.totaltimespent;
@@ -58,13 +50,24 @@ export default async function home() {
 
           return(
             <div key={project.projectid + 'div'}>
-              <form action={deleteProj} key={project.projectid + 'form'} className="h-2/12 flex flex-col gap-2 max-w-40 border-2 border-white p-2">
+              <form action={deleteProj} key={project.projectid + 'form'} className="w-[15em] rounded-md flex flex-col gap-2 p-2 bg-[--lightBlue]">
+
                 <input type="hidden" name="id" value={project.projectid} />
                 
-                <div className="flex flex-col items-center" key={project.projectid + 'div2'}>
-                  <h2 key={project.projectid}><b>{project.projectname};</b></h2>
-                  <h2 key={project.projectid}>{hours}h {minutes}min {seconds}s</h2>
+                <div className="flex flex-col items-center gap-2 p-1" key={project.projectid + 'div2'}>
+                  
+                  <div className="bg-[--offWhite] rounded-sm w-[13.5em] flex justify-center items-center flex-col gap-1 py-2">
+                    <h2 className="text-[#3A4756] inconsolata-500 text-xl">project name:</h2>
+                    <div className="bg-[#3A4756] h-0.5 w-28 mb-2"></div>
+                    <h2 className="text-[#3A4756] text-2xl" key={project.projectid}><b>{project.projectname}</b></h2>
+                  </div>
+                  
+                  <div className="bg-[--offWhite] rounded-sm w-[13.5em] flex justify-center items-center flex-col gap-1">
+                    <h2 className="text-[#3A4756] text-2xl tracking-widest py-2" key={project.projectid}><b>{hours}:{minutes}:{seconds} h</b></h2>
+                  </div>
                 </div>
+
+               
 
                 <div className="w-full flex justify-center gap-1" key={project.projectid + 'div3'}>
                   <Link href={"/proj/" + project.projectid} className="text-lg border-2 border-slate-300 bg-slate-500 text-slate-700 px-1 rounded rotate-180" key={project.projectid + 'link'}><b>✐</b></Link>
@@ -72,9 +75,9 @@ export default async function home() {
                 </div>
               </form>
             </div>
-            
           )})}
-      </div>
+        <ExtendedHome />
+      </main>
     </div>
   )
 }

@@ -1,49 +1,38 @@
-'use client'
-import React from 'react'
-import { useState } from 'react'
-import Link from 'next/link'
-import Profile from './components/Profile'
-
-export default function Login () {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
-
-  const handleSubmit = async (e: any, path: any) => {
-    e.preventDefault()
-    const response = await fetch(`/api/${path}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    })
-    if (response.ok) {
-      const user = await response.json()
-      setUser(user)
-      setIsLoggedIn(true)
-    } else {
-      console.log(`${path} failed`)
-    }
-  }
-
+import React from 'react';
+export default function SignupPage() {
   return (
-    <div>
-      {!isLoggedIn ? (
-          <div className="h-screen w-full pt-60 flex items-center flex-col gap-10">
-            <h1 className="text-xl tracking-wide"><b>Login page</b></h1>
-            
-            <form action='/home' method="POST" className="flex flex-col items-center gap-1 w-60">
-              <input name="username" type="text" placeholder="username" className="px-2 border-2 border-slate-500 rounded-md" />
-              <input name="password" type="password" placeholder="password" className="px-2 border-2 border-slate-500 rounded-md" />
-              
-              <button type="submit" className="border-2 bg-slate-600 text-white w-20 rounded-md">Login</button>
-            </form>
+    <div className="h-screen w-full flex  items-center flex-col bg-[--darkestBlue]">
+      <header className="w-full h-32 mt-6 bg-[--darkerBlue] flex justify-center items-center">
+        <div className="w-80 h-20 flex justify-center items-center flex-col bg-[--offWhite] border-4 rounded-md border-[#8B3037]">
+          <h1 className="text-[#8B3037] tracking-wider gloria-hallelujah-regular">
+            <b>{"zekken'"}s</b>
+          </h1>
 
-            <Link href={"/signup"} className="underline"><i>signup page</i></Link>
+          <div className="bg-[#8B3037] w-28 h-0.5"></div>
+
+          <h1 id="red_webkit" className="text-[--offWhite] text-2xl inconsolata-500">
+            <strong>Time Manager</strong>
+          </h1>
         </div>
-      ) : (
-        <Profile />
-      )}
+      </header>
+
+      <main className="bg-orange-100/70 bg-orange-200- w-full h-80 flex flex-col justify-center items-center mt-5 border-2 border-[#D9D9D9]">
+
+        <a href="/login" className="w-72 h-20 border-2 border-[#2f3f52] bg-[--lightBlue] p-5 rounded-md flex flex-col justify-center items-center gap-2">
+          <div className="bg-white w-28 h-0.5"></div>
+          <div className="text-white inconsolata-500"><b>Login</b></div>
+        </a>
+
+        <p className="my-4 text-[#8B3037] text-lg">
+          <b className="cursor-default gloria-hallelujah-regular">- or -</b>
+        </p>
+
+        <a href="/signup" className="w-72 rounded-md border-2 border-[#8B3037] bg-[--offWhite] p-5 flex flex-col justify-center items-center gap-2">
+          <div className="text-[#8B3037] inconsolata-500"><b>Sign up!</b></div>
+          <div className="bg-[#8B3037] w-28 h-0.5"></div>
+        </a>
+
+      </main>
     </div>
   )
 }

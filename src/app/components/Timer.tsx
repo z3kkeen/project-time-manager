@@ -22,6 +22,7 @@ export default function Timer({previousTimeSpent, params, data}: myData) {
     const [timeSpent, setTimeSpent] = useState(0);
     const [sessionTimeSpent, setSessionTimeSpent] = useState(0);
     const [category, setCategory] = useState<CategoryData[]>([]);
+    const [showStartButton, setShowStartButton] = useState(true);
     
     let hours = Math.floor((timeSpent + previousTimeSpent + sessionTimeSpent) / 3600);
     let minutes = Math.floor((timeSpent + previousTimeSpent + sessionTimeSpent) / 60) % 60;
@@ -71,20 +72,20 @@ export default function Timer({previousTimeSpent, params, data}: myData) {
     }, [params.id, timer, timeSpent]);
 
   return (
-    <div>
-        <select onChange={(e) => callBack(e.target.value)} name="category" className="text-black text-md px-2 py-1 rounded-sm border-2 border-blue-300">
+    <div className="h-full w-full py-10 flex justify-center items-center flex-col gap-2">
+        <select onChange={(e) => callBack(e.target.value)} name="category" className="p-1 border-2 border-[--darkerBlue] rounded-md placeholder:text-[--darkerBlue] inconsolata-500 text-[--darkestBlue] bg-[--offWhite]">
 
             <option className="text-gray-100">Select category</option>
 
             {data.map((category: any) => (
-                <option value={category.id} key={category.id} className="text-black border-2 border-blue-400">
+                <option value={category.id} key={category.id} className="p-1 border-2 inconsolata-500">
                     {category.name}
                 </option>
             ))}
         </select>
         
-        <form action={onSubmit}>
-            <div className="flex items-center justify-center p-2 text-lg bg-slate-700 text-white rounded tracking-wider"><b> {hours}h,  {minutes}min, {seconds}sec</b></div>
+        <form action={onSubmit} className="flex flex-col items-center justify-center gap-2">
+            <div className="w-52 flex items-center justify-center p-2 text-lg bg-slate-700 text-white rounded tracking-wider"><b> {hours}h,  {minutes}min, {seconds}sec</b></div>
             <input name="project_id" value={params.id} type="hidden" />
 
             {category.length > 0 && (
@@ -99,13 +100,6 @@ export default function Timer({previousTimeSpent, params, data}: myData) {
                 <button type='submit' value='Submit' onClick={stopTimer} name="stop" className="w-20 border-2 bg-slate-700 border-slate-400 rounded">Pause</button>
             </div>  
         </form>
-
-        {category.length > 0 && (
-            <div>
-                <h1>id: {category[0].id}</h1>
-                <h1>name: {category[0].name}</h1>
-            </div>
-        )}
     </div>
   )
 }
